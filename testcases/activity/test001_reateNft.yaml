@@ -1,0 +1,26 @@
+- name: "创建数字藏品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/admin/nft-manage/save-nft-setting
+    data:
+      {
+        "memberCardBackgroundUrl": "https://medialibs-1251021022.file.myqcloud.com/2023032120360983b5009e040969ee7b60362ad7426573849968912.jpeg",
+        "nftName": "{{name}}徽章",
+        "author": "数字藏品测试",
+        "authorDesc": "数字藏品测试",
+        "issuerInfo": "我的应用",
+        "issuerDesc": "数字藏品测试",
+        "totalSupply": 50,
+        "desc": "<p>数字藏品测试</p>",
+        "isActivityNft": 1,
+        "referencePrice": 100,
+        "nftType": 1,
+        "appId": "{{appId}}"
+      }
+  extract:
+    {
+      nftInitId: "nftInitId"
+    }
+  validate:
+    contains: "nftInitId"

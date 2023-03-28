@@ -1,0 +1,35 @@
+- name: "创建会员卡奖品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/supplier/prize/prize-save
+    data:
+      {
+        prizeId: "{{nftInitId_card}}",
+        thumbImage: "https://medialibs-1251021022.file.myqcloud.com/2023032123503883b5009e040969ee7b60362ad74265731115121719.jpeg",
+        stockNumber: 10,
+        details: "",
+        name: "{{name}}会员卡",
+        prizeType: 13,
+        totalSupply: 0,
+        nftCategory: 5,
+        appId: "{{appId}}"
+      }
+  validate:
+    equals: {return_msg: true}
+
+- name: "获取创建的会员卡奖品id"
+  project: "tongdui8"
+  request:
+    method: GET
+    url: ${read_config(tongdui8_base,base_url)}/supplier/prize/get-prize-list
+    params:
+      {
+        page: 0,
+        pageSize: 10,
+        searchKey: "{{name}}会员卡",
+        useType: 2
+      }
+  extract: {card_prizeId: id}
+  validate:
+    contains: "totalCount"

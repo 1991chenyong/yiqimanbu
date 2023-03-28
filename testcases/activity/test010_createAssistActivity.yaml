@@ -1,0 +1,23 @@
+- name: "创建助力活动"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(base,base_url)}/superAdmin/assist-activity/save
+    data:
+      {
+        thankType: 1,
+        appId: "{{appId}}",
+        backgroundImage: "https://static-10006892.file.myqcloud.com/points-mall/images/supportActivity/bg-min.png",
+        backgroundTitle: "https://static-10006892.file.myqcloud.com/points-mall/images/supportActivity/tittle-min.png",
+        clubId: "{{clubId}}",
+        startAt: "${get_current_time()}",
+        endAt: "${get_add_month()}",
+        "giftList[0]": "{{activityId}}",
+        thankContent: "<p>嗡嗡嗡</p>",
+        thankContentCoverImage: "",
+        activityName: "{{name}}助力活动",
+        activityRules: "<p>呃呃呃呃呃呃</p>"
+      }
+  extract: {supportActivityId: return_msg}
+  validate:
+    equals: {return_code: SUCCESS}

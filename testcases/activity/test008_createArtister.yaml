@@ -1,0 +1,26 @@
+- name: "创建艺人"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/superAdmin/artist/add-artist
+    data:
+      {
+        homepageBaseImg: "https://static-10006892.cos.ap-shanghai.myqcloud.com/artist-admin/images/homepageBaseImg.png",
+        artistName: "大明星{{name}}",
+        artistHeadPic: "https://medialibs-1251021022.file.myqcloud.com/2023032320235483b5009e040969ee7b60362ad7426573450249293.jpeg",
+        homepageBackGroundImage: "https://medialibs-1251021022.file.myqcloud.com/20230323202404ea571676ce9b75b0730a5d56350ae93e6718402.jpeg",
+        worksBackgroundImage: "https://medialibs-1251021022.file.myqcloud.com/20230323202408182845aceb39c9e413e28fd549058cf81437311288.jpeg",
+        artistIntroduce: "大明星{{name}}",
+        sort: 1,
+        artistCompanyId: 30,
+        clubId: "{{clubId}}",
+        appId: "{{appId}}",
+        "worksInfo[0][worksId]": "63ec381b908f89206d7d2641",
+        "worksInfo[0][giftIds][0]": "{{activityId}}",
+        "worksInfo[1][worksId]": "63ec38515f208a35dc173036",
+        "worksInfo[1][giftIds][0]": "{{activityId}}",
+        "worksInfo[2][worksId]": "63ec38734543360d9c6452e2"
+      }
+  extract: {artistId: id}
+  validate:
+    equals: {artistName: "大明星{{name}}"}

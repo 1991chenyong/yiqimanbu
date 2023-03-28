@@ -1,0 +1,40 @@
+- name: "创建预售活动"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/admin/pre-sale/save
+    data:
+      {
+        activityName: "{{name}}预售活动",
+        backgroundImgUrl: "https://medialibs-1251021022.file.myqcloud.com/2023032220474383b5009e040969ee7b60362ad74265731790155269.jpeg",
+        startTime: "${get_current_time()}",
+        endTime: "${get_add_month()}",
+        clusteringNum: 5,
+        deliverTime: 1,
+        "goodsList[0][goodsBackgroundUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032121042383b5009e040969ee7b60362ad7426573102129019.jpeg",
+        "goodsList[0][warehouseId]": "{{product_id}}",
+        "goodsList[0][goodsType]": 1,
+        "goodsList[0][type]": 1,
+        "goodsList[0][goodsName]": "{{name}}实物商品",
+        "goodsList[0][goodsPrice]": 1,
+        "goodsList[0][marketPrice]": 100,
+        "goodsList[0][goodsStock]": 20,
+        "goodsList[0][randomId]": 3919240,
+        "prizeList[0][goodsBackgroundUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032120360983b5009e040969ee7b60362ad7426573849968912.jpeg",
+        "prizeList[0][warehouseId]": "{{prizeId}}",
+        "prizeList[0][goodsType]": 2,
+        "prizeList[0][type]": 11,
+        "prizeList[0][goodsName]": "韩梅梅3224624徽章奖品",
+        "prizeList[0][marketPrice]": 100,
+        "prizeList[0][goodsStock]": 10,
+        "prizeList[0][goodsPrice]": 1,
+        "prizeList[0][randomId]": 2619239,
+        activityStock: 10,
+        activityDesc: "<p>测试数据</p>",
+        fansPointsAmount: ,
+        isFansPointsAmount: 1,
+        appId: "{{appId}}"
+      }
+  extract: {activityId: activityId}
+  validate:
+    contains: "activityId"

@@ -1,0 +1,617 @@
+- name: "创建数字藏品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/admin/nft-manage/save-nft-setting
+    data:
+      {
+        "memberCardBackgroundUrl": "https://medialibs-1251021022.file.myqcloud.com/2023032120360983b5009e040969ee7b60362ad7426573849968912.jpeg",
+        "nftName": "{{name}}徽章",
+        "author": "数字藏品测试",
+        "authorDesc": "数字藏品测试",
+        "issuerInfo": "我的应用",
+        "issuerDesc": "数字藏品测试",
+        "totalSupply": 50,
+        "desc": "<p>数字藏品测试</p>",
+        "isActivityNft": 1,
+        "referencePrice": 100,
+        "nftType": 1,
+        "appId": "{{appId}}"
+      }
+  extract:
+    {
+      nftInitId: "nftInitId"
+    }
+  validate:
+    contains: "nftInitId"
+
+- name: "创建数字藏品奖品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/supplier/prize/prize-save
+    data:
+      {
+        "thumbImage": "https://medialibs-1251021022.file.myqcloud.com/2023032120360983b5009e040969ee7b60362ad7426573849968912.jpeg",
+        "prizeId": "{{nftInitId}}",
+        "stockNumber": 25,
+        "name": "{{name}}徽章奖品",
+        "prizeType": 11,
+        "totalSupply": 0,
+        "appId": "{{appId}}"
+      }
+  validate:
+    equals: {return_msg: true}
+
+- name: "获取创建的数字藏品奖品id"
+  project: "tongdui8"
+  request:
+    method: GET
+    url: ${read_config(tongdui8_base,base_url)}/supplier/prize/get-prize-list
+    params:
+      {
+        page: 0,
+        pageSize: 10,
+        useType: 2
+      }
+  extract: {prizeId: id}
+  validate:
+    contains: "pageCount"
+
+- name: "创建实物商品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/warehouse/save
+    data:
+      {
+        "sku[0][count]": 20,
+        "sku[0][price]": 100,
+        "sku[0][saleCash]": 0,
+        "sku[0][salePoints]": 100,
+        "sku[0][rewardNumber]": 0,
+        "sku[0][skuId][0]": 1,
+        "sku[0][warehouseId]": 0,
+        "sku[0][pointsType]": 2,
+        "sku[0][pointsId]": 1963,
+        "warehouse[id]": 0,
+        "warehouse[isSingle]": 1,
+        "warehouse[type]": 1,
+        "warehouse[isTelephoneContact]": 0,
+        "warehouse[isRefund]": 1,
+        "warehouse[isGoodsRejected]": 0,
+        "warehouse[isReplacement]": 1,
+        "warehouse[isReward]": 0,
+        "warehouse[rewardRules]": 0,
+        "warehouse[rewardPointsType]": 0,
+        "warehouse[details]": "<p>测试数据</p>",
+        "warehouse[images][0]": "https://medialibs-1251021022.file.myqcloud.com/2023032121042683b5009e040969ee7b60362ad74265731340270125.jpeg",
+        "warehouse[freightType]": 0,
+        "warehouse[status]": 1,
+        "warehouse[thumbImage]": "https://medialibs-1251021022.file.myqcloud.com/2023032121042383b5009e040969ee7b60362ad7426573102129019.jpeg",
+        "warehouse[useType]": 1,
+        "warehouse[name]": "{{name}}实物商品",
+        "warehouse[saleType]": 2,
+        "warehouse[isShowSales]": 1,
+        "warehouse[buyerQuota]": "",
+        "warehouse[isStockZeroUnder]": 1,
+        postage: 0,
+        appId: "{{appId}}"
+      }
+  validate:
+    equals: {return_msg: true}
+
+- name: "获取创建的商品id"
+  project: "tongdui8"
+  request:
+    method: GET
+    url: ${read_config(tongdui8_base,base_url)}/warehouse/query-warehouse-list
+    params:
+      {
+        page: 0,
+        pageSize: 10,
+        useType: 1,
+        searchKey: "{{name}}实物商品"
+      }
+  extract: {product_id: id}
+  validate:
+    contains: "totalCount"
+
+- name: "创建会员卡"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/admin/nft-manage/save-nft-setting
+    data:
+      {
+        nftName: "{{name}}会员卡",
+        memberCardBackgroundUrl: "https://medialibs-1251021022.file.myqcloud.com/2023032123503883b5009e040969ee7b60362ad74265731115121719.jpeg",
+        totalSupply: 20,
+        issuerInfo: "我的应用",
+        desc: "测试会员卡",
+        issuerDesc: "测试会员卡",
+        originPrice: 100,
+        liveCodeId: "",
+        liveCodeTitle: "",
+        liveCodeIsOpen: 0,
+        liveCodeBgUrl: "https://static-10006892.file.myqcloud.com/points-mall/images/default-livecode-img.png",
+        "memberRights[0][rightsId]": 25416,
+        "memberRights[0][rightsType]": 4,
+        "memberRights[0][rightsPic]": "https://static-10006892.file.myqcloud.com/points-mall/images/icon_upgrade.png",
+        "memberRights[0][rightsDesc]": "用户满足条件后比如开通会员可获得礼包",
+        "memberRights[0][hasPower]": 0,
+        "memberRights[0][isCheck]": 0,
+        "memberRights[0][containAllProducts]": 0,
+        "memberRights[1][rightsId]": 25419,
+        "memberRights[1][rightsType]": 7,
+        "memberRights[1][rightsPic]": "https://static-10006892.file.myqcloud.com/points-mall/images/icon_member_discount.png",
+        "memberRights[1][rightsDesc]": "限定会员身份或者购买会员卡的用户可以参与活动",
+        "memberRights[1][hasPower]": 0,
+        "memberRights[1][isCheck]": 0,
+        "memberRights[2][rightsId]": 25417,
+        "memberRights[2][rightsType]": 6,
+        "memberRights[2][rightsPic]": "https://static-10006892.file.myqcloud.com/points-mall/images/icon_day_coupon.png",
+        "memberRights[2][rightsDesc]": "用户每日可免费领取一张优惠券",
+        "memberRights[2][hasPower]": 1,
+        "memberRights[2][isCheck]": 0,
+        "memberRights[2][containAllProducts]": 0,
+        "memberRights[3][rightsId]": 25415,
+        "memberRights[3][rightsType]": 3,
+        "memberRights[3][rightsPic]": "https://static-10006892.file.myqcloud.com/points-mall/images/icon_rebate_points.png",
+        "memberRights[3][rightsDesc]": "用户购买商品后获得的赠送积分可以翻倍",
+        "memberRights[3][hasPower]": 0,
+        "memberRights[3][orderGrantPointsMultiples]": 1,
+        "memberRights[3][isCheck]": 0,
+        "memberRights[3][containAllProducts]": 0,
+        "memberRights[4][rightsId]": 25414,
+        "memberRights[4][rightsType]": 1,
+        "memberRights[4][rightsPic]": "https://static-10006892.file.myqcloud.com/points-mall/images/icon_discount.png",
+        "memberRights[4][rightsDesc]": "用户购物时可享受积分折扣和现金折扣",
+        "memberRights[4][hasPower]": 0,
+        "memberRights[4][enablePriceDiscount]": 0,
+        "memberRights[4][enablePointsDiscount]": 0,
+        "memberRights[4][isCheck]": 0,
+        "memberRights[4][containAllProducts]": 0,
+        "memberRights[5][rightsType]": 9,
+        "memberRights[5][rightsPic]": "https://static-10006892.file.myqcloud.com/aiduifen-miniProgram/img/kzr_y.png",
+        "memberRights[5][rightsDesc]": "用户可转让会员卡给其他用户，转让成功后，会员卡所有权益将即时失效",
+        "memberRights[5][status]": 1,
+        "memberRights[5][hasPower]": 1,
+        "memberRights[5][isCheck]": 1,
+        "memberRights[5][isNoNeedCheck]": true,
+        "memberRights[5][rightsIcon]": "icon-xinyong",
+        "memberRights[6][rightsType]": 10,
+        "memberRights[6][rightsPic]": "https://static-10006892.file.myqcloud.com/aiduifen-miniProgram/img/NFT_y.png",
+        "memberRights[6][rightsDesc]": "拥有收藏价值的虚拟产品，通过区块链技术对产品进行认证和加密",
+        "memberRights[6][status]": 1,
+        "memberRights[6][hasPower]": 1,
+        "memberRights[6][isCheck]": 1,
+        "memberRights[6][isNoNeedCheck]": true,
+        "memberRights[6][rightsIcon]": "icon-fabu",
+        "payRule[0][price]": "",
+        "payRule[0][isCheck]": 0,
+        "payRule[0][title]": "现金开卡",
+        "payRule[0][saleType]": 3,
+        "payRule[1][points]": 10,
+        "payRule[1][title]": "试用积分开卡",
+        "payRule[1][pointsType]": 2,
+        "payRule[1][pointsName]": "试用积分",
+        "payRule[1][isCheck]": 1,
+        "payRule[1][saleType]": 1,
+        "payRule[2][points]": "",
+        "payRule[2][price]": "",
+        "payRule[2][title]": "试用积分+现金开卡",
+        "payRule[2][pointsType]": 2,
+        "payRule[2][pointsName]": "试用积分",
+        "payRule[2][isCheck]": 0,
+        "payRule[2][saleType]": 2,
+        cardLimitIsOpen: 0,
+        cardLimit: "",
+        nftCategory: 5,
+        isSpread: 0,
+        "saleForecastConf[switch]": 0,
+        "saleForecastConf[startTime]": "",
+        "saleForecastConf[endTime]": "",
+        "customizationConf[switch]": 0,
+        "activeSetting[type]": "",
+        "activeSetting[payRuleList][0][price]": "",
+        "activeSetting[payRuleList][0][isCheck]": 0,
+        "activeSetting[payRuleList][0][title]": "现金开卡",
+        "activeSetting[payRuleList][0][saleType]": 3,
+        "activeSetting[payRuleList][1][points]": "",
+        "activeSetting[payRuleList][1][title]": "试用积分开卡",
+        "activeSetting[payRuleList][1][pointsType]": 2,
+        "activeSetting[payRuleList][1][pointsName]": "试用积分",
+        "activeSetting[payRuleList][1][isCheck]": 0,
+        "activeSetting[payRuleList][1][saleType]": 1,
+        "activeSetting[payRuleList][2][points]": "",
+        "activeSetting[payRuleList][2][price]": "",
+        "activeSetting[payRuleList][2][title]": "试用积分+现金开卡",
+        "activeSetting[payRuleList][2][pointsType]": 2,
+        "activeSetting[payRuleList][2][pointsName]": "试用积分",
+        "activeSetting[payRuleList][2][isCheck]": 0,
+        "activeSetting[payRuleList][2][saleType]": 2,
+        tradeInterfaceIsCompleted: "",
+        code: "",
+        appId: "{{appId}}"
+      }
+  extract: {nftInitId_card: nftInitId}
+  validate:
+    contains: "nftInitId"
+
+- name: "将新建的会员卡开启售卖"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/admin/nft-manage/set-sale-status
+    data:
+      {
+        nftInitId: "{{nftInitId_card}}",
+        salesStatus: 1,
+        appId: "{{appId}}"
+      }
+  validate:
+    equals: {data: 1}
+
+- name: "创建会员卡奖品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/supplier/prize/prize-save
+    data:
+      {
+        prizeId: "{{nftInitId_card}}",
+        thumbImage: "https://medialibs-1251021022.file.myqcloud.com/2023032123503883b5009e040969ee7b60362ad74265731115121719.jpeg",
+        stockNumber: 10,
+        details: "",
+        name: "{{name}}会员卡",
+        prizeType: 13,
+        totalSupply: 0,
+        nftCategory: 5,
+        appId: "{{appId}}"
+      }
+  validate:
+    equals: {return_msg: true}
+
+- name: "获取创建的会员卡奖品id"
+  project: "tongdui8"
+  request:
+    method: GET
+    url: ${read_config(tongdui8_base,base_url)}/supplier/prize/get-prize-list
+    params:
+      {
+        page: 0,
+        pageSize: 10,
+        searchKey: "{{name}}会员卡",
+        useType: 2
+      }
+  extract: {card_prizeId: id}
+  validate:
+    contains: "totalCount"
+
+- name: "创建预售活动"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/admin/pre-sale/save
+    data:
+      {
+        activityName: "{{name}}预售活动",
+        backgroundImgUrl: "https://medialibs-1251021022.file.myqcloud.com/2023032220474383b5009e040969ee7b60362ad74265731790155269.jpeg",
+        startTime: "${get_current_time()}",
+        endTime: "${get_add_month()}",
+        clusteringNum: 5,
+        deliverTime: 1,
+        "goodsList[0][goodsBackgroundUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032121042383b5009e040969ee7b60362ad7426573102129019.jpeg",
+        "goodsList[0][warehouseId]": "{{product_id}}",
+        "goodsList[0][goodsType]": 1,
+        "goodsList[0][type]": 1,
+        "goodsList[0][goodsName]": "{{name}}实物商品",
+        "goodsList[0][goodsPrice]": 1,
+        "goodsList[0][marketPrice]": 100,
+        "goodsList[0][goodsStock]": 20,
+        "goodsList[0][randomId]": 3919240,
+        "prizeList[0][goodsBackgroundUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032120360983b5009e040969ee7b60362ad7426573849968912.jpeg",
+        "prizeList[0][warehouseId]": "{{prizeId}}",
+        "prizeList[0][goodsType]": 2,
+        "prizeList[0][type]": 11,
+        "prizeList[0][goodsName]": "韩梅梅3224624徽章奖品",
+        "prizeList[0][marketPrice]": 100,
+        "prizeList[0][goodsStock]": 10,
+        "prizeList[0][goodsPrice]": 1,
+        "prizeList[0][randomId]": 2619239,
+        activityStock: 10,
+        activityDesc: "<p>测试数据</p>",
+        fansPointsAmount: ,
+        isFansPointsAmount: 1,
+        appId: "{{appId}}"
+      }
+  extract: {activityId: activityId}
+  validate:
+    contains: "activityId"
+
+- name: "创建粉丝会"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/superAdmin/artist-club/add-artist-club
+    data:
+      {
+        clubName: "{{name}}粉丝会",
+        fansNickname: "fans",
+        "banner[0][imgUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032222153183b5009e040969ee7b60362ad7426573883012975.jpeg",
+        "banner[0][url]": ,
+        "banner[0][type]": "internalAppJump",
+        "banner[0][title]": ,
+        "banner[0][randomKey]": 1679494534419,
+        fansVoiceFilename: ,
+        unFansVoiceFilename: ,
+        unFansBackground: "https://medialibs-1251021022.file.myqcloud.com/2022123015440444575b5bcfbcf743ba10abe37752787b1005641786.png",
+        fansBackground: "https://medialibs-1251021022.file.myqcloud.com/20221230154428337a17efc8c7e246df0a3458e19e9e98911205018.png",
+        fansVoice: ,
+        unFansVoice: ,
+        "headPicConf[0][headPicUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032222151783b5009e040969ee7b60362ad7426573408380315.jpeg",
+        "headPicConf[1][headPicUrl]": "https://medialibs-1251021022.file.myqcloud.com/20230322221522ea571676ce9b75b0730a5d56350ae93e1535071141.jpeg",
+        joinInFansPointsAmount: 7,
+        "fansNftConf[fansNftInitId]": "{{nftInitId_card}}",
+        "fansNftConf[prizeId]": "{{card_prizeId}}",
+        "fansNftConf[fansNftName]": "{{name}}会员卡",
+        "fansNftConf[giftId]": "{{activityId}}",
+        "fansNftConf[giftName]": "{{name}}预售活动",
+        fansPointsDesc: "粉丝会测试数据",
+        appId: "{{appId}}"
+      }
+  extract: {clubId: id}
+  validate:
+    equals: {clubName: "{{name}}粉丝会"}
+
+- name: "创建艺人"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/superAdmin/artist/add-artist
+    data:
+      {
+        homepageBaseImg: "https://static-10006892.cos.ap-shanghai.myqcloud.com/artist-admin/images/homepageBaseImg.png",
+        artistName: "大明星{{name}}",
+        artistHeadPic: "https://medialibs-1251021022.file.myqcloud.com/2023032320235483b5009e040969ee7b60362ad7426573450249293.jpeg",
+        homepageBackGroundImage: "https://medialibs-1251021022.file.myqcloud.com/20230323202404ea571676ce9b75b0730a5d56350ae93e6718402.jpeg",
+        worksBackgroundImage: "https://medialibs-1251021022.file.myqcloud.com/20230323202408182845aceb39c9e413e28fd549058cf81437311288.jpeg",
+        artistIntroduce: "大明星{{name}}",
+        sort: 1,
+        artistCompanyId: 30,
+        clubId: "{{clubId}}",
+        appId: "{{appId}}",
+        "worksInfo[0][worksId]": "63ec381b908f89206d7d2641",
+        "worksInfo[0][giftIds][0]": "{{activityId}}",
+        "worksInfo[1][worksId]": "63ec38515f208a35dc173036",
+        "worksInfo[1][giftIds][0]": "{{activityId}}",
+        "worksInfo[2][worksId]": "63ec38734543360d9c6452e2"
+      }
+  extract: {artistId: id}
+  validate:
+    equals: {artistName: "大明星{{name}}"}
+
+- name: "创建低碳活动"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(base,base_url)}/superAdmin/activity-step/save
+    data:
+      {
+        activityName: "{{name}}低碳活动",
+        clubId: "{{clubId}}",
+        appId: "{{appId}}",
+        startAt: "${get_current_time()}",
+        endAt: "${get_add_month()}",
+        activityRules: "活动规则活动规则活动规则活动规则",
+        activityIcon: "https://medialibs-1251021022.file.myqcloud.com/2023032320392083b5009e040969ee7b60362ad7426573255353088.jpeg",
+        "teamInfo[teamPeriod]": 9,
+        "teamInfo[teamMemberNums]": 5,
+        shareBackgroundImg: "https://medialibs-1251021022.file.myqcloud.com/202303232039319679ccb5a92f650b83fcf29e0a6a677574240431.jpeg",
+        teamBackgroundImg: "https://medialibs-1251021022.file.myqcloud.com/20230323203922ea571676ce9b75b0730a5d56350ae93e663611504.jpeg",
+        finishBackgroundImg: "https://medialibs-1251021022.file.myqcloud.com/20230323203927182845aceb39c9e413e28fd549058cf81280665650.jpeg",
+        "linksActivityInfo[activityName]": "",
+        "linksActivityInfo[activityId]": "",
+        "linksActivityInfo[activityUrl]": "",
+        "linksActivityInfo[type]": "",
+        "linksActivityInfo[loginStatus]": "",
+        shareRewardValue: 7,
+        "todayStepNumReward[0][num]": 10,
+        "todayStepNumReward[0][rewardType]": 1,
+        "todayStepNumReward[0][rewardName]": "真爱值",
+        "todayStepNumReward[0][rewardValue]": 1,
+        "todayStepNumReward[0][prizeId]": ,
+        "todayStepNumReward[0][nftInitId]": ,
+        "todayStepNumReward[0][nftName]": ,
+        "todayStepNumReward[0][backupsPrize][rewardType]": 1,
+        "todayStepNumReward[0][backupsPrize][points]": ,
+        "todayStepNumReward[0][backupsPrize][prizeName]": "真爱值",
+        "todayStepNumReward[1][num]": 20,
+        "todayStepNumReward[1][rewardType]": 1,
+        "todayStepNumReward[1][rewardName]": "真爱值",
+        "todayStepNumReward[1][rewardValue]": 2,
+        "todayStepNumReward[1][prizeId]": ,
+        "todayStepNumReward[1][nftInitId]": ,
+        "todayStepNumReward[1][nftName]": ,
+        "todayStepNumReward[1][backupsPrize][rewardType]": 1,
+        "todayStepNumReward[1][backupsPrize][points]": ,
+        "todayStepNumReward[1][backupsPrize][prizeName]": "真爱值",
+        "todayStepNumReward[2][num]": 30,
+        "todayStepNumReward[2][rewardType]": 1,
+        "todayStepNumReward[2][rewardName]": "真爱值",
+        "todayStepNumReward[2][rewardValue]": 3,
+        "todayStepNumReward[2][prizeId]": ,
+        "todayStepNumReward[2][nftInitId]": ,
+        "todayStepNumReward[2][nftName]": ,
+        "todayStepNumReward[2][backupsPrize][rewardType]": 1,
+        "todayStepNumReward[2][backupsPrize][points]": ,
+        "todayStepNumReward[2][backupsPrize][prizeName]": "真爱值",
+        "todayStepNumReward[3][num]": 40,
+        "todayStepNumReward[3][rewardType]": 1,
+        "todayStepNumReward[3][rewardName]": "真爱值",
+        "todayStepNumReward[3][rewardValue]": 4,
+        "todayStepNumReward[3][prizeId]": ,
+        "todayStepNumReward[3][nftInitId]": ,
+        "todayStepNumReward[3][nftName]": ,
+        "todayStepNumReward[3][backupsPrize][rewardType]": 1,
+        "todayStepNumReward[3][backupsPrize][points]": ,
+        "todayStepNumReward[3][backupsPrize][prizeName]": "真爱值",
+        "todayStepNumReward[4][num]": 50,
+        "todayStepNumReward[4][rewardType]": 1,
+        "todayStepNumReward[4][rewardName]": "真爱值",
+        "todayStepNumReward[4][rewardValue]": 5,
+        "todayStepNumReward[4][prizeId]": ,
+        "todayStepNumReward[4][nftInitId]": ,
+        "todayStepNumReward[4][nftName]": ,
+        "todayStepNumReward[4][backupsPrize][rewardType]": 1,
+        "todayStepNumReward[4][backupsPrize][points]": ,
+        "todayStepNumReward[4][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[0][num]": 1,
+        "totalSportsNumReward[0][rewardType]": 1,
+        "totalSportsNumReward[0][rewardName]": "真爱值",
+        "totalSportsNumReward[0][rewardValue]": 6,
+        "totalSportsNumReward[0][prizeId]": ,
+        "totalSportsNumReward[0][nftInitId]": ,
+        "totalSportsNumReward[0][nftName]": ,
+        "totalSportsNumReward[0][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[0][backupsPrize][points]": ,
+        "totalSportsNumReward[0][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[1][num]": 2,
+        "totalSportsNumReward[1][rewardType]": 1,
+        "totalSportsNumReward[1][rewardName]": "真爱值",
+        "totalSportsNumReward[1][rewardValue]": 7,
+        "totalSportsNumReward[1][prizeId]": ,
+        "totalSportsNumReward[1][nftInitId]": ,
+        "totalSportsNumReward[1][nftName]": ,
+        "totalSportsNumReward[1][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[1][backupsPrize][points]": ,
+        "totalSportsNumReward[1][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[2][num]": 3,
+        "totalSportsNumReward[2][rewardType]": 1,
+        "totalSportsNumReward[2][rewardName]": "真爱值",
+        "totalSportsNumReward[2][rewardValue]": 8,
+        "totalSportsNumReward[2][prizeId]": ,
+        "totalSportsNumReward[2][nftInitId]": ,
+        "totalSportsNumReward[2][nftName]": ,
+        "totalSportsNumReward[2][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[2][backupsPrize][points]": ,
+        "totalSportsNumReward[2][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[3][num]": 4 ,
+        "totalSportsNumReward[3][rewardType]": 1,
+        "totalSportsNumReward[3][rewardName]": "真爱值",
+        "totalSportsNumReward[3][rewardValue]": 9,
+        "totalSportsNumReward[3][prizeId]": ,
+        "totalSportsNumReward[3][nftInitId]": ,
+        "totalSportsNumReward[3][nftName]": ,
+        "totalSportsNumReward[3][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[3][backupsPrize][points]": ,
+        "totalSportsNumReward[3][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[4][num]": 5,
+        "totalSportsNumReward[4][rewardType]": 1,
+        "totalSportsNumReward[4][rewardName]": "真爱值",
+        "totalSportsNumReward[4][rewardValue]": 10,
+        "totalSportsNumReward[4][prizeId]": ,
+        "totalSportsNumReward[4][nftInitId]": ,
+        "totalSportsNumReward[4][nftName]": ,
+        "totalSportsNumReward[4][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[4][backupsPrize][points]": ,
+        "totalSportsNumReward[4][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[5][num]": 6,
+        "totalSportsNumReward[5][rewardType]": 1,
+        "totalSportsNumReward[5][rewardName]": "真爱值",
+        "totalSportsNumReward[5][rewardValue]": 11,
+        "totalSportsNumReward[5][prizeId]": ,
+        "totalSportsNumReward[5][nftInitId]": ,
+        "totalSportsNumReward[5][nftName]": ,
+        "totalSportsNumReward[5][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[5][backupsPrize][points]": ,
+        "totalSportsNumReward[5][backupsPrize][prizeName]": "真爱值",
+        "totalSportsNumReward[6][num]": 7,
+        "totalSportsNumReward[6][rewardType]": 1,
+        "totalSportsNumReward[6][rewardName]": "真爱值",
+        "totalSportsNumReward[6][rewardValue]": 12,
+        "totalSportsNumReward[6][prizeId]": ,
+        "totalSportsNumReward[6][nftInitId]": ,
+        "totalSportsNumReward[6][nftName]": ,
+        "totalSportsNumReward[6][backupsPrize][rewardType]": 1,
+        "totalSportsNumReward[6][backupsPrize][points]": ,
+        "totalSportsNumReward[6][backupsPrize][prizeName]": "真爱值",
+        "totalStepNumReward[0][num]": 100,
+        "totalStepNumReward[0][rewardType]": 2,
+        "totalStepNumReward[0][rewardName]": "真爱值",
+        "totalStepNumReward[0][rewardValue]": ,
+        "totalStepNumReward[0][prizeId]": "{{prizeId}}",
+        "totalStepNumReward[0][nftInitId]": "{{nftInitId}}",
+        "totalStepNumReward[0][backupsPrize][rewardType]": 1,
+        "totalStepNumReward[0][backupsPrize][points]": 2,
+        "totalStepNumReward[0][backupsPrize][prizeName]": "真爱值",
+        "totalStepNumReward[0][prizeName]": "{{name}}徽章奖品",
+        "totalSignInNumReward[0][num]": 1,
+        "totalSignInNumReward[0][rewardType]": 1,
+        "totalSignInNumReward[0][rewardName]": "真爱值",
+        "totalSignInNumReward[0][rewardValue]": 1,
+        "totalSignInNumReward[0][prizeId]": ,
+        "totalSignInNumReward[0][nftInitId]": ,
+        "totalSignInNumReward[0][nftName]": ,
+        "totalSignInNumReward[0][backupsPrize][rewardType]": 1,
+        "totalSignInNumReward[0][backupsPrize][points]": ,
+        "totalSignInNumReward[0][backupsPrize][prizeName]": "真爱值",
+        "totalSignInNumReward[1][num]": 2,
+        "totalSignInNumReward[1][rewardType]": 1,
+        "totalSignInNumReward[1][rewardName]": "真爱值",
+        "totalSignInNumReward[1][rewardValue]": 2,
+        "totalSignInNumReward[1][prizeId]": ,
+        "totalSignInNumReward[1][nftInitId]": ,
+        "totalSignInNumReward[1][nftName]": ,
+        "totalSignInNumReward[1][backupsPrize][rewardType]": 1,
+        "totalSignInNumReward[1][backupsPrize][points]": ,
+        "totalSignInNumReward[1][backupsPrize][prizeName]": "真爱值",
+        "totalSignInNumReward[2][num]": 3,
+        "totalSignInNumReward[2][rewardType]": 1,
+        "totalSignInNumReward[2][rewardName]": "真爱值",
+        "totalSignInNumReward[2][rewardValue]": 3,
+        "totalSignInNumReward[2][prizeId]": ,
+        "totalSignInNumReward[2][nftInitId]": ,
+        "totalSignInNumReward[2][nftName]": ,
+        "totalSignInNumReward[2][backupsPrize][rewardType]": 1,
+        "totalSignInNumReward[2][backupsPrize][points]": ,
+        "totalSignInNumReward[2][backupsPrize][prizeName]": "真爱值",
+        "totalSignInNumReward[3][num]": 4,
+        "totalSignInNumReward[3][rewardType]": 2,
+        "totalSignInNumReward[3][rewardName]": "真爱值",
+        "totalSignInNumReward[3][rewardValue]": 4,
+        "totalSignInNumReward[3][prizeId]": "{{prizeId}}",
+        "totalSignInNumReward[3][nftInitId]": "{{nftInitId}}",
+        "totalSignInNumReward[3][backupsPrize][rewardType]": 1,
+        "totalSignInNumReward[3][backupsPrize][points]": 4,
+        "totalSignInNumReward[3][backupsPrize][prizeName]": "真爱值",
+        "totalSignInNumReward[3][prizeName]": "{{name}}徽章奖品"
+      }
+  extract: {ditanActivityId: return_msg}
+  validate:
+    contains: "return_msg"
+
+- name: "创建助力活动"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(base,base_url)}/superAdmin/assist-activity/save
+    data:
+      {
+        thankType: 1,
+        appId: "{{appId}}",
+        backgroundImage: "https://static-10006892.file.myqcloud.com/points-mall/images/supportActivity/bg-min.png",
+        backgroundTitle: "https://static-10006892.file.myqcloud.com/points-mall/images/supportActivity/tittle-min.png",
+        clubId: "{{clubId}}",
+        startAt: "${get_current_time()}",
+        endAt: "${get_add_month()}",
+        "giftList[0]": "{{activityId}}",
+        thankContent: "<p>嗡嗡嗡</p>",
+        thankContentCoverImage: "",
+        activityName: "{{name}}助力活动",
+        activityRules: "<p>呃呃呃呃呃呃</p>"
+      }
+  extract: {supportActivityId: return_msg}
+  validate:
+    equals: {return_code: SUCCESS}

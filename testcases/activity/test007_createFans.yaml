@@ -1,0 +1,34 @@
+- name: "创建粉丝会"
+  project: "aiduifen"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/superAdmin/artist-club/add-artist-club
+    data:
+      {
+        clubName: "{{name}}粉丝会",
+        fansNickname: "fans",
+        "banner[0][imgUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032222153183b5009e040969ee7b60362ad7426573883012975.jpeg",
+        "banner[0][url]": ,
+        "banner[0][type]": "internalAppJump",
+        "banner[0][title]": ,
+        "banner[0][randomKey]": 1679494534419,
+        fansVoiceFilename: ,
+        unFansVoiceFilename: ,
+        unFansBackground: "https://medialibs-1251021022.file.myqcloud.com/2022123015440444575b5bcfbcf743ba10abe37752787b1005641786.png",
+        fansBackground: "https://medialibs-1251021022.file.myqcloud.com/20221230154428337a17efc8c7e246df0a3458e19e9e98911205018.png",
+        fansVoice: ,
+        unFansVoice: ,
+        "headPicConf[0][headPicUrl]": "https://medialibs-1251021022.file.myqcloud.com/2023032222151783b5009e040969ee7b60362ad7426573408380315.jpeg",
+        "headPicConf[1][headPicUrl]": "https://medialibs-1251021022.file.myqcloud.com/20230322221522ea571676ce9b75b0730a5d56350ae93e1535071141.jpeg",
+        joinInFansPointsAmount: 7,
+        "fansNftConf[fansNftInitId]": "{{nftInitId_card}}",
+        "fansNftConf[prizeId]": "{{card_prizeId}}",
+        "fansNftConf[fansNftName]": "{{name}}会员卡",
+        "fansNftConf[giftId]": "{{activityId}}",
+        "fansNftConf[giftName]": "{{name}}预售活动",
+        fansPointsDesc: "粉丝会测试数据",
+        appId: "{{appId}}"
+      }
+  extract: {clubId: id}
+  validate:
+    equals: {clubName: "{{name}}粉丝会"}

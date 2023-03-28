@@ -1,0 +1,5 @@
+title,belongApp,bannerStatus,bannerOrder,appVersion,jumpType,loginStatus,imageUrl,url
+"app内部跳转",1,0,1,"1.5.0",1,1,"https://medialibs-1251021022.file.myqcloud.com/20220818205851c57de7ffb63a04971dc3a933cf2f080d1242043838.jpeg","https://www.baidu.com/"
+"app外部浏览器跳转",1,0,2,"1.5.0",2,1,"https://medialibs-1251021022.file.myqcloud.com/20220818205851c57de7ffb63a04971dc3a933cf2f080d1242043838.jpeg","https://www.baidu.com/"
+"app查看长图",1,0,3,"1.5.0",3,1,"https://medialibs-1251021022.file.myqcloud.com/20220818210744ea571676ce9b75b0730a5d56350ae93e1641051164.jpeg","https://medialibs-1251021022.file.myqcloud.com/20220818210748ea571676ce9b75b0730a5d56350ae93e1794103919.jpeg"
+"无跳转banner",1,0,4,"1.5.0",4,0,"https://medialibs-1251021022.file.myqcloud.com/20220818205851c57de7ffb63a04971dc3a933cf2f080d1242043838.jpeg","https://www.baidu.com/"

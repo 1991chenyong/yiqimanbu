@@ -1,0 +1,58 @@
+- name: "创建实物商品"
+  project: "tongdui8"
+  request:
+    method: POST
+    url: ${read_config(tongdui8_base,base_url)}/warehouse/save
+    data:
+      {
+        "sku[0][count]": 20,
+        "sku[0][price]": 100,
+        "sku[0][saleCash]": 0,
+        "sku[0][salePoints]": 100,
+        "sku[0][rewardNumber]": 0,
+        "sku[0][skuId][0]": 1,
+        "sku[0][warehouseId]": 0,
+        "sku[0][pointsType]": 2,
+        "sku[0][pointsId]": 1963,
+        "warehouse[id]": 0,
+        "warehouse[isSingle]": 1,
+        "warehouse[type]": 1,
+        "warehouse[isTelephoneContact]": 0,
+        "warehouse[isRefund]": 1,
+        "warehouse[isGoodsRejected]": 0,
+        "warehouse[isReplacement]": 1,
+        "warehouse[isReward]": 0,
+        "warehouse[rewardRules]": 0,
+        "warehouse[rewardPointsType]": 0,
+        "warehouse[details]": "<p>测试数据</p>",
+        "warehouse[images][0]": "https://medialibs-1251021022.file.myqcloud.com/2023032121042683b5009e040969ee7b60362ad74265731340270125.jpeg",
+        "warehouse[freightType]": 0,
+        "warehouse[status]": 1,
+        "warehouse[thumbImage]": "https://medialibs-1251021022.file.myqcloud.com/2023032121042383b5009e040969ee7b60362ad7426573102129019.jpeg",
+        "warehouse[useType]": 1,
+        "warehouse[name]": "{{name}}实物商品",
+        "warehouse[saleType]": 2,
+        "warehouse[isShowSales]": 1,
+        "warehouse[buyerQuota]": "",
+        "warehouse[isStockZeroUnder]": 1,
+        postage: 0,
+        appId: "{{appId}}"
+      }
+  validate:
+    equals: {return_msg: true}
+
+- name: "获取创建的商品id"
+  project: "tongdui8"
+  request:
+    method: GET
+    url: ${read_config(tongdui8_base,base_url)}/warehouse/query-warehouse-list
+    params:
+      {
+        page: 0,
+        pageSize: 10,
+        useType: 1,
+        searchKey: "{{name}}实物商品"
+      }
+  extract: {product_id: id}
+  validate:
+    contains: "totalCount"

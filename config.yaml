@@ -1,0 +1,15 @@
+base:
+  userName: "wangxiaogang"
+  password: "123456"
+  base_url: "http://miniprogram-aiduifen-test.tongdui8.com"
+  code: "123456"
+tongdui8_base:
+  base_url: "https://points-mall-test.henshihui.com"
+  mobile: "18599936556"
+  password: "idouzi123456"
+log:
+  log_name: logs_
+  log_level: info
+  log_format: '[%(asctime)s] %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s] %(message)s'
+test_data:
+  appVerTitle: "V1.1.0更新-升级提示"
