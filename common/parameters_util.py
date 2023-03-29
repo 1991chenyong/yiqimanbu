@@ -12,7 +12,6 @@ def read_testcase_yaml(yaml_path):
         with open(yaml_path, encoding='utf8') as f:
             testcase_data = yaml.full_load(f.read())
             if testcase_data and isinstance(testcase_data, list):
-                # if jsonpath.jsonpath(*testcase_data, '$..parameters'):
                 for testcase in testcase_data:
                     if jsonpath.jsonpath(dict(testcase), '$..parameters'):
                         testcase_list = analysis_csv(testcase)
@@ -30,7 +29,6 @@ def read_testcase_yaml(yaml_path):
     except Exception as e:
         write_error_log("读取测试用例文件失败！")
 
-
 # 封装分析csv文件的方法
 def analysis_csv(testcase_info):
     try:
@@ -38,7 +36,6 @@ def analysis_csv(testcase_info):
         for key, value in dict(testcase_info['parameters']).items():
             # 读取csv文件
             csv_data = common_util.read_csv_data(value)
-            # text_testcase_info = json.dumps(testcase_info)
             text_testcase_info = yaml.dump(testcase_info)
             # 所有行长度标记
             length_flag = True
@@ -56,12 +53,9 @@ def analysis_csv(testcase_info):
                         old_value = '$csv{%s}' % csv_data[0][y]
                         if csv_data[0][y] in key_list:
                             temp_testcase_info = temp_testcase_info.replace(old_value, csv_data[x][y])
-                    #testcase_info_list.append(json.loads(temp_testcase_info))
                     testcase_info_list.append(yaml.safe_load(temp_testcase_info))
-                # print("分析替换后的数据：")
-                # print(testcase_info_list)
         return testcase_info_list
-    except Exception as e:
+    except:
         write_error_log("分析parameters参数化出错，异常信息： %s" % str(traceback.format_exc()))
 
 

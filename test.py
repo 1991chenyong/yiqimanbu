@@ -4,22 +4,33 @@
 # @Email:775375798@qq.com
 # @File: test.py
 from pathlib import Path
-import requests
+from common.parameters_util import read_testcase_yaml
+import pytest
+import allure
+from common.requests_util import RequestUtil
+
+# 当前路径
+current_path = Path(__file__).parent
+print(current_path)
+# 找到所有的代表测试用例的yaml文件
+# yaml_case_list = current_path.glob('**/*.yaml')
+# for i in yaml_case_list:
+#     print(i.name[:-5])
+
+# 创建用例的方法
+def create_testcase():
+    def test_func(yaml_path):
+        return yaml_path
+    return test_func
+
+class TestAllApi:
+    pass
+
+setattr(TestAllApi,'cy',create_testcase())
+test = TestAllApi.cy
+print(TestAllApi.cy("ddd"))
 
 
-url = "https://points-mall-test.henshihui.com/warehouse/query-warehouse-list"
 
-session = requests.session()
-# headers = {"token": "NWguZUdwa25wAXYGCgQNC3YgYjoWI1MPQjoZDzUCXghvKx43JEYHXQ=="}
-params = {
-    "page": 0,
-    "pageSize": 10,
-    "searchKey": "梅鸣实物商品",
-    "useType": 1,
-    "s_ver": 1,
-    "appId": 2473,
-    "t": "NWguZUdwa25wAXYGCgQNC3YgYjoWI1MPQjoZDzUCXghvKx43JEYHXQ=="
-}
-# res = session.get(url=url, params=params, headers=headers)
-res = session.get(url=url, params=params)
-print(res.text)
+
+
