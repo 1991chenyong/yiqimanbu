@@ -5,7 +5,7 @@ base:
   code: "123456"
 tongdui8_base:
   base_url: "https://points-mall-test.henshihui.com"
-  mobile: "18599936556"
+  mobile: "13177777777"
   password: "idouzi123456"
 log:
   log_name: logs_

@@ -15,6 +15,7 @@ current_path = Path(__file__).parent
 yaml_case_list = current_path.glob('**/*.yaml')
 
 # 创建用例的方法
+allure.epic("一起漫部项目后台接口")
 def create_testcase(yaml_path):
     @pytest.mark.parametrize('testcases_info', read_testcase_yaml(yaml_path))
     def test_func(self, testcases_info):
